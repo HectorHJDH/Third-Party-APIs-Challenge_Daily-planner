@@ -1,6 +1,7 @@
-var today = dayjs();
+
 var weekDay = dayjs().format('dddd');
-var month_num = dayjs('2023-06-15').format('MMM D');
+var month_num = dayjs().format('MMMM D');
+
 $('#currentDay').text(weekDay + ', ' + month_num);
 
 /* For ensuring that the code isn't run until the browser has finished rendering all the elements in the html 
