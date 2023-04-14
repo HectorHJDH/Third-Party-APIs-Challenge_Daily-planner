@@ -1,8 +1,24 @@
 
 var weekDay = dayjs().format('dddd');
-var month_num = dayjs().format('MMMM D');
+var month = dayjs().format('MMMM');
+var day = dayjs().format('D');
 
-$('#currentDay').text(weekDay + ', ' + month_num);
+function ordinal(day) {
+  var i = day % 10,
+    j = day % 100;
+  if (i == 1 && j != 11) {
+    return day + "st";
+  }
+  if (i == 2 && j != 12) {
+    return day + "nd";
+  }
+  if (i == 3 && j != 13) {
+    return day + "rd";
+  }
+  return day + "th";
+}
+
+$('#currentDay').text(weekDay + ', ' + month + ' ' + ordinal(day));
 
 /* For ensuring that the code isn't run until the browser has finished rendering all the elements in the html 
 we use function like this: "$()", that is the shorthand for this: $(document).ready(function()) */
