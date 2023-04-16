@@ -39,19 +39,22 @@ $(function () {
   // TODO: Add code to display the current date in the header of the page.
   $('#currentDay').text(weekDay + ', ' + month + ' ' + ordinal(day));
 
-  const description = document.querySelectorAll('.description');
-  description.forEach((block, i) => {
-    const savedData = localStorage.getItem(`boxData ${i}`);
+  const time_block = document.querySelectorAll('.time-block');
+  time_block.forEach((eachBlock) => {
+    const description = eachBlock.querySelector('.description');
+    const savedData = localStorage.getItem(`boxData ${eachBlock.id}`);
     if (savedData) {
-      block.value = savedData;
+      description.value = savedData;
     }
-  });
 
-  const saveBtn = document.querySelectorAll('.saveBtn');
-  saveBtn.forEach((btn, i) => {
-    btn.addEventListener('click', function() {
-      const inputTxtArea = description[i].value;
-      localStorage.setItem(`boxData ${i}`, inputTxtArea);
+    const saveBtn = eachBlock.querySelector('.saveBtn');
+    saveBtn.addEventListener('click', function() {
+      const value = description.value;
+      localStorage.setItem(`boxData ${eachBlock.id}`, value);
     });
   });
 });
+
+  
+// textarea clase descripcion
+// boton clase saveBtn
