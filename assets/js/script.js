@@ -2,6 +2,7 @@ var weekDay = dayjs().format('dddd');
 var month = dayjs().format('MMMM');
 var day = dayjs().format('D');
 
+// Function that returns the ordinal depending on the number of the actual day
 function ordinal(day) {
   var i = day % 10,
     j = day % 100;
@@ -16,45 +17,51 @@ function ordinal(day) {
   }
   return day + "th";
 }
+
 /* For ensuring that the code isn't run until the browser has finished rendering all the elements in the html 
 we use function like this: "$()", that is the shorthand for this: $(document).ready(function()) */
 $(function () {
-  // TODO: Add a listener for click events on the save button. This code should
-  // use the id in the containing time-block as a key to save the user input in
-  // local storage. HINT: What does `this` reference in the click listener
-  // function? How can DOM traversal be used to get the "hour-x" id of the
-  // time-block containing the button that was clicked? How might the id be
-  // useful when saving the description in local storage?
-  
-  // TODO: Add code to apply the past, present, or future class to each time
-  // block by comparing the id to the current hour. HINTS: How can the id
-  // attribute of each time-block be used to conditionally add or remove the
-  // past, present, and future classes? How can Day.js be used to get the
-  // current hour in 24-hour time?
-  
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  
-  // TODO: Add code to display the current date in the header of the page.
+  // SAVE DATA IN THE STORE AND DISPLAY IT IN THE DESCRIPTION TEXTAREAS
+  // Shows the full day name, the month and day with ordinal
   $('#currentDay').text(weekDay + ', ' + month + ' ' + ordinal(day));
 
+  // Function that goes throught all the time blocks and stores the description in the localStorage
   const time_block = document.querySelectorAll('.time-block');
   time_block.forEach((eachBlock) => {
     const description = eachBlock.querySelector('.description');
     const savedData = localStorage.getItem(`boxData ${eachBlock.id}`);
+  
+  // Makes the local store to show the values, data in the boxes even if reloading the page
     if (savedData) {
       description.value = savedData;
     }
 
+  // On click the save button, the local store is going to update the past values with the new ones introduced
     const saveBtn = eachBlock.querySelector('.saveBtn');
     saveBtn.addEventListener('click', function() {
       const value = description.value;
       localStorage.setItem(`boxData ${eachBlock.id}`, value);
     });
   });
-});
 
-  
-// textarea clase descripcion
-// boton clase saveBtn
+  // COLOR OF THE TIME BLOCKS
+  // Defined startDay at 9 representing 9am and endDay at 17 representing 5pm
+  const startDay = 9;
+  const endDay = 17;
+
+  // In this for the i moves throught the div ids "hour-x" for this line to repeat 9 times (9 to 17) incrementing the "hour-x" x value
+  for (let i = startDay; i <= endDay; i++) {
+    const divBlock = document.getElementById(`hour-${i}`);
+    const currentHour = dayjs().hour();
+    
+  // Adds the classes for if the time block is future, present and past for the backgorund color change in the time blocks, also uses i 
+  // to determine the hour
+    if (currentHour < i) {
+      divBlock.classList.add("future");
+    } else if (currentHour === i) {
+      divBlock.classList.add("present");
+    } else {
+      divBlock.classList.add("past");
+    }
+  }
+});
