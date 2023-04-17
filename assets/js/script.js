@@ -25,6 +25,52 @@ $(function () {
   // Shows the full day name, the month and day with ordinal
   $('#currentDay').text(weekDay + ', ' + month + ' ' + ordinal(day));
 
+  // Defined startDay at 9 representing 9am and endDay at 17 representing 5pm
+  const startDay = 9;
+  const endDay = 17;
+
+  // In this for the i moves throught the div ids "hour-x" for this line to repeat 9 times (9 to 17) incrementing the "hour-x" x value
+  for (let i = startDay; i <= endDay; i++) {
+    const newTimeBlock  = document.createElement('div');
+    newTimeBlock.id = `hour-${i}`;
+    newTimeBlock.classList.add('row', 'time-block');
+    if (i <=12 ) {
+      //AM
+      newTimeBlock.innerHTML = `
+      <div class="col-2 col-md-1 hour text-center py-3">${i}AM</div>
+      <textarea class="col-8 col-md-10 description" rows="3"></textarea>
+      <button class="btn saveBtn col-2 col-md-1" aria-label="save">
+        <i class="fas fa-save" aria-hidden="true"></i>
+      </button>
+    `; 
+    } //PM
+    else {
+      newTimeBlock.innerHTML = `
+      <div class="col-2 col-md-1 hour text-center py-3">${i}PM</div>
+      <textarea class="col-8 col-md-10 description" rows="3"></textarea>
+      <button class="btn saveBtn col-2 col-md-1" aria-label="save">
+        <i class="fas fa-save" aria-hidden="true"></i>
+      </button>
+    `;
+    }
+    // Get current hour with dayjs
+    const currentHour = dayjs().hour();
+
+    // COLOR OF THE TIME BLOCKS
+    // Adds the classes for if the time block is future, present and past for the backgorund color change in the time blocks, also uses i 
+    // to determine the hour
+    if (currentHour < i) {
+      newTimeBlock.classList.add("future"); // Future
+    } else if (currentHour === i) {
+      newTimeBlock.classList.add("present"); // Present
+    } else {
+      newTimeBlock.classList.add("past"); // Past
+    }
+    
+    // Adds the new created element to the page
+    const hourContainer = document.getElementById('hour-');
+    hourContainer.appendChild(newTimeBlock);
+  }
   // Function that goes throught all the time blocks and stores the description in the localStorage
   const time_block = document.querySelectorAll('.time-block');
   time_block.forEach((eachBlock) => {
@@ -43,25 +89,4 @@ $(function () {
       localStorage.setItem(`boxData ${eachBlock.id}`, value);
     });
   });
-
-  // COLOR OF THE TIME BLOCKS
-  // Defined startDay at 9 representing 9am and endDay at 17 representing 5pm
-  const startDay = 9;
-  const endDay = 17;
-
-  // In this for the i moves throught the div ids "hour-x" for this line to repeat 9 times (9 to 17) incrementing the "hour-x" x value
-  for (let i = startDay; i <= endDay; i++) {
-    const divBlock = document.getElementById(`hour-${i}`);
-    const currentHour = dayjs().hour();
-    
-  // Adds the classes for if the time block is future, present and past for the backgorund color change in the time blocks, also uses i 
-  // to determine the hour
-    if (currentHour < i) {
-      divBlock.classList.add("future");
-    } else if (currentHour === i) {
-      divBlock.classList.add("present");
-    } else {
-      divBlock.classList.add("past");
-    }
-  }
 });
