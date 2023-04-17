@@ -11,7 +11,7 @@ In this app by clicking on any box you will be able to schedule events of your d
 - Present Events: 🔴
 - Past Events: 🔘
 
-Live page Url: https://
+Live page Url: https://hectorhjdh.github.io/Third-Party-APIs-Challenge_Daily-planner/
 
 ## Screenshots
 ![Horiseon](/assets/images/DaySchedulerScreenshot.PNG "Day Scheduler App Screenshot")
